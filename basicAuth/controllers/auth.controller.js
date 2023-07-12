@@ -5,14 +5,29 @@ module.exports.signup = (req, res, next) => {
 };
 
 module.exports.doSignup = (req, res, next) => {
-  console.log('body: ', req.body);
-  User.create(req.body)
+  const renderWithErrors = (errors) => {
+    res.render('auth/signup', {
+      user: {
+        email: req.body.email,
+        name: req.body.name
+      },
+      errors
+    });
+  };
+
+  User.findOne({ email: req.body.email })
     .then(user => {
-      console.log('Created user: ', user);
-      res.redirect('/');
+      if (!user) {
+        // lo creo y redirijo
+        return User.create(req.body)
+          .then(user => {
+            res.redirect('/');
+          });
+      } else {
+        renderWithErrors({ email: 'Email already registered' });
+      }
     })
     .catch(error => {
-      console.error(error);
-      res.render('auth/signup', { user: req.body, error });
+      renderWithErrors(error.errors);
     });
 };
