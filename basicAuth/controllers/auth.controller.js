@@ -24,10 +24,10 @@ module.exports.doSignup = (req, res, next) => {
             res.redirect('/');
           });
       } else {
-        renderWithErrors({ email: 'Email already registered' });
+        renderWithErrors('Email already registered');
       }
     })
     .catch(error => {
-      renderWithErrors(error.errors);
+      renderWithErrors(error);
     });
 };
