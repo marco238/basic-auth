@@ -13,12 +13,13 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: [true, 'Email is required.'],
-      unique: [true, 'Email is already registered.'],
+      unique: true,
       match: [EMAIL_PATTERN, 'Email is invalid.']
     },
     password: {
       type: String,
-      required: [true, 'Password is required.']
+      required: [true, 'Password is required.'],
+      minlength: [8, 'Password must have at least 8 characters.']
     }
   },
   {
@@ -38,5 +39,9 @@ userSchema.pre('save', function(next) {
     next();
   }
 });
+
+userSchema.methods.checkPassword = function(passwordToCheck) {
+  return bcrypt.compare(passwordToCheck, this.password);
+};
 
 module.exports = model('User', userSchema);

@@ -9,17 +9,17 @@ const cookieParser = require('cookie-parser');
 const hbs = require('hbs');
 const mongoose = require('mongoose');
 
+const { sessionConfig, currentUser } = require('./configs/session.config');
+
 // Set up the database
 require('./configs/db.config');
 
-// Routers
-const indexRouter = require('./routes/index.routes');
-const authRouter = require('./routes/auth.routes');
-
 const app = express();
 
-// Express View engine setup
+// Routers
+const indexRouter = require('./routes/index.routes');
 
+// Express View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -34,9 +34,12 @@ app.use(cookieParser());
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
+// Session middleware
+app.use(sessionConfig);
+app.use(currentUser);
+
 // Routes middleware
 app.use('/', indexRouter);
-app.use('/', authRouter);
 
 // Catch missing routes and forward to error handler
 app.use((req, res, next) => next(createError(404)));

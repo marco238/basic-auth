@@ -1,15 +1,7 @@
 <div id="signup" class="container col-xxl-4">
-  <h2>Signup</h2>
+  <h2>Login</h2>
   
-  <form action="/signup" method="POST">
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" name="username" class="form-control {{#if errors.username}}is-invalid{{/if}}" id="username" aria-describedby="usernameHelp">
-      <div class="invalid-feedback">
-        <p>{{errors.username}}</p>
-      </div>
-      <div id="usernameHelp" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
+  <form action="/login" method="POST">
     <div class="mb-3">
       <label for="email" class="form-label">Email address</label>
       <input type="email" name="email" class="form-control {{#if errors.email}}is-invalid{{/if}}" id="email" aria-describedby="emailHelp">
@@ -25,6 +17,6 @@
         <p>{{errors.password}}</p>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Signup</button>
+    <button type="submit" class="btn btn-primary">Login</button>
   </form>
 </div>
