@@ -6,13 +6,13 @@ module.exports.signup = (req, res, next) => {
 
 module.exports.doSignup = (req, res, next) => {
   const renderWithErrors = (errors) => {
-    res.render('auth/signup', {
-      user: {
-        email: req.body.email,
-        name: req.body.name
-      },
-      errors
-    });
+    // res.render('auth/signup', {
+    //   user: {
+    //     email: req.body.email,
+    //     name: req.body.name
+    //   },
+    //   errors
+    // });
   };
 
   User.findOne({ email: req.body.email })
