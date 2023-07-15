@@ -20,7 +20,7 @@ module.exports.sessionConfig = expressSession({
 });
 
 module.exports.currentUser = (req, res, next) => {
-  const userId = req.session.userId;
+  const userId = req.session.userId; // recuperar el id del usuario de la sesión (que hemos metido en el login)
 
   if (userId) {
     User.findById(userId)
