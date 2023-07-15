@@ -25,9 +25,14 @@ module.exports.currentUser = (req, res, next) => {
   if (userId) {
     User.findById(userId)
       .then(user => {
-        req.currentUser = user; // para tener acceso al usuario en los controladores
-        res.locals.currentUser = user; // res.locals es un objeto que se pasa a las vistas
-        next(); // para que pase a la siguiente función
+        if (user) {
+          req.currentUser = user; // para tener acceso al usuario en los controladores
+          res.locals.currentUser = user; // res.locals es un objeto que se pasa a las vistas
+          next(); // para que pase a la siguiente función
+        } else {
+          delete req.session.userId; // si el usuario no existe, borramos el id de la sesión (aquí no debería entrar nunca, pero por si acaso)
+          next(); // para que pase a la siguiente función
+        }
       })
       .catch(error => next(error));
   } else {
